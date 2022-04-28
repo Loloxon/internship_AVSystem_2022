@@ -26,7 +26,10 @@ class ElevatorSystem(val elevators: ListBuffer[Elevator] = ListBuffer()){
   def checkout(): String ={
     var ans = ""
     for(e <- elevators){
-      ans+="Elevator "+e.ID+" is currently:\nnear "+round(e.currentFloor)+" floor, going to "+e.destinationFloor+"\n"
+      if(e.destinationFloor==e.currentFloor)
+        ans+="Elevator "+e.ID+":\nNear "+round(e.currentFloor)+" floor, not moving\n"
+      else
+        ans+="Elevator "+e.ID+":\nNear "+round(e.currentFloor)+" floor, going to "+e.destinationFloor+"\n"
     }
     ans
   }

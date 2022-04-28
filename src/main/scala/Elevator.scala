@@ -3,7 +3,7 @@ import scala.collection.mutable.ListBuffer
 class Elevator(val ID: Int, var moveDirection: Int = 0, var currentFloor: Double = 0,
                var destinationFloor: Int = 0, var requestsSubmitted: ListBuffer[Request] = ListBuffer(),
                var passengers: ListBuffer[Request] = ListBuffer(),
-               val reloadingTime: Int = 5, var reloadingProgress: Int = 5){
+               val reloadingTime: Int = 25, var reloadingProgress: Int = 25){
 
   def addRequest(r: Request): Unit ={
     requestsSubmitted.append(r)
@@ -29,10 +29,10 @@ class Elevator(val ID: Int, var moveDirection: Int = 0, var currentFloor: Double
   def move(): Unit ={
     if(reloadingProgress==reloadingTime){
       if (currentFloor < destinationFloor) {
-        currentFloor += 0.125
+        currentFloor += 0.0625
       }
       else if (currentFloor > destinationFloor) {
-        currentFloor -= 0.125
+        currentFloor -= 0.0625
       }
     }
     else{
@@ -45,7 +45,7 @@ class Elevator(val ID: Int, var moveDirection: Int = 0, var currentFloor: Double
     }else if(requestsSubmitted.nonEmpty){
       destinationFloor = requestsSubmitted.head.from
     }
-    println("ID: ", ID, ", ", destinationFloor)
+//    println("ID: ", ID, ", ", destinationFloor)
   }
   def growImpatience(): Unit ={
     for(r<-requestsSubmitted)

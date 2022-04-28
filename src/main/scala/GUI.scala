@@ -1,6 +1,6 @@
 import scalafx.Includes._
 import scalafx.animation._
-import scalafx.application.{JFXApp, JFXApp3}
+import scalafx.application.JFXApp3
 import scalafx.event.ActionEvent
 import scalafx.geometry.Pos._
 import scalafx.scene.Scene
@@ -95,9 +95,7 @@ object GUI extends JFXApp3{
         controls.children += timeScroll
 
         val exitButton = new Button("Exit")
-        exitButton.onAction = (e: ActionEvent) => {
-          exit(77)
-        }
+        exitButton.onAction = (e: ActionEvent) => {exit(0)}
         exitButton.prefHeight = 50
         exitButton.prefWidth = 100
         controls.children += exitButton
@@ -109,8 +107,8 @@ object GUI extends JFXApp3{
         allStats.prefWidth = 200
 
         val getInfo = new Button("Generate stats")
-        getInfo.prefWidth = 200
-        allStats.children += getInfo
+//        getInfo.prefWidth = 200
+//        allStats.children += getInfo
 
         val stats = new TextArea()
         stats.prefHeight = 700
@@ -175,9 +173,9 @@ object GUI extends JFXApp3{
 
       val es = new ElevatorSystem
 
-      getInfo.onAction = (e: ActionEvent) => {
-        stats.setText(es.checkout())
-      }
+//      getInfo.onAction = (e: ActionEvent) => {
+//        stats.setText(es.checkout())
+//      }
 
       summonElevator.onAction = (e: ActionEvent) => {
         if (chosenElevator == "[none]" || currentFloor == "[none]" || destinationFloor == "[none]") {}
@@ -214,9 +212,6 @@ object GUI extends JFXApp3{
         }
       }
 
-      //    val board = new PeopleBoard
-      //    board.initialize(width,height)
-
       timeScroll.min = -7
       timeScroll.max = -1
       timeScroll.value = -3
@@ -243,11 +238,7 @@ object GUI extends JFXApp3{
                 }
               }
             }
-            //          for (i <- 0 until width) {
-            //            for (j <- 0 until height) {
-            //              rectangles(i)(j).fill = board.cells(i)(j).color
-            //            }
-            //          }
+            stats.setText(es.checkout())
             updateDelay = total_delay
           }
         }

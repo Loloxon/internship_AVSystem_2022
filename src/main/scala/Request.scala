@@ -2,7 +2,12 @@ class Request(val from: Int, val to: Int, var waiting: Boolean = true, var waiti
   def furtherWaiting(): Unit ={
     waitingTime+=1
   }
-  def realise(): Unit ={
-    waiting = false
+
+  override def toString: String = {
+    from + " -> " + to + "; " + waitingTime
   }
+
+//  def realise(): Unit ={
+//    waiting = false
+//  }
 }

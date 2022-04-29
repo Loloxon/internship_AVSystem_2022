@@ -72,22 +72,22 @@ class Elevator(val ID: Int, var moveDirection: Int = 0, var currentFloor: Double
     var bestDestination = -1
     var distance = 10000.0
     for(p <- passengers){
-      if(distance == 10000.0 || (math.abs(currentFloor-p.to)*16 - p.waitingTime/4)<distance){
+      if(math.abs(currentFloor-p.to)*16 - p.waitingTime/4<distance){
         distance = math.abs(currentFloor-p.to)*16 - p.waitingTime / 4
         bestDestination = p.to
       }
     }
     if(passengers.length<capacity) {
       for (r <- requestsSubmitted) {
-        var directionValue = 0
+        var directionValue = 1
         if(r.goingUp && goingUp || !r.goingUp && !goingUp){ //w dobrym kierunku
-          directionValue = 0
+          directionValue = 1
         }
         else{
           directionValue = 2
         }
         println("dir val: ", directionValue)
-        if (distance == 10000.0 || (math.abs(currentFloor - r.from) * 16 - r.waitingTime / 4)*directionValue < distance) {
+        if ((math.abs(currentFloor - r.from) * 16 - r.waitingTime / 4)*directionValue < distance) {
           distance = (math.abs(currentFloor - r.to) * 16 - r.waitingTime / 4) * directionValue
           bestDestination = r.from
         }

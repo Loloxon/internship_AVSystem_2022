@@ -27,9 +27,9 @@ class ElevatorSystem(val elevators: ListBuffer[Elevator] = ListBuffer()){
   def checkout(): String ={
     var ans = ""
     for(e <- elevators) {
+      ans += "Elevator " + e.ID + " capacity: " + e.passengers.length + "/" + e.capacity + ":\n```"
       if (e.reloadingTime != e.reloadingProgress) {
-        ans += "```Elevator " + e.ID + " capacity: " + e.passengers.length + "/" + e.capacity +
-          ":\nOn " + round(e.currentFloor) + " floor, reloading ["
+        ans += "On " + round(e.currentFloor) + " floor, reloading ["
         for(i<-0 until e.reloadingTime by 5){
           if(i<=e.reloadingProgress)
             ans += "X"
@@ -40,11 +40,9 @@ class ElevatorSystem(val elevators: ListBuffer[Elevator] = ListBuffer()){
       }
       else {
         if (e.destinationFloor == e.currentFloor)
-          ans += "```Elevator " + e.ID + " capacity: " + e.passengers.length + "/" + e.capacity +
-            ":\nOn " + round(e.currentFloor) + " floor, not moving\n"
+          ans += "On " + round(e.currentFloor) + " floor, not moving\n"
         else
-          ans += "```Elevator " + e.ID + " capacity: " + e.passengers.length + "/" + e.capacity +
-            ":\nNear " + round(e.currentFloor) + " floor, going to " + e.destinationFloor + "\n"
+          ans += "Near " + round(e.currentFloor) + " floor, going to " + e.destinationFloor + "\n"
       }
     }
     ans

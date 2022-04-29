@@ -9,6 +9,8 @@ import scalafx.scene.layout._
 import scalafx.scene.paint.Color._
 import scalafx.scene.shape.Rectangle
 
+import Floors._
+
 import scala.sys.exit
 
 
@@ -19,24 +21,26 @@ object GUI extends JFXApp3{
 
     var chosenElevator = "[none]"
     var currentFloor = "[none]"
+//    var currentFloor = FloorsNo(11)
     var destinationFloor = "[none]"
     stage = new JFXApp3.PrimaryStage {
       title = "Elevator system"
-      val width1 = 1200
+      val width1 = 1400
       val height1 = 800
       scene = new Scene(width1, height1) {
-        val menuBar = new MenuBar
-        val fileMenu = new Menu("File")
-        val exitItem = new MenuItem("Exit")
-        fileMenu.onAction = (e: ActionEvent) => {
-          exit(77)
-        }
-        fileMenu.items = List(exitItem)
-        menuBar.menus = List(fileMenu)
+        val buffor = new HBox
+        buffor.prefHeight = 10
+//        val fileMenu = new Menu("File")
+//        val exitItem = new MenuItem("Exit")
+//        fileMenu.onAction = (e: ActionEvent) => {
+//          exit(77)
+//        }
+//        fileMenu.items = List(exitItem)
+//        menuBar.menus = List(fileMenu)
 
         val settings = new VBox
         settings.alignment = TopCenter
-        settings.prefWidth = 200
+        settings.prefWidth = 300
         settings.spacing = 5
 
         val currentSettingsLabel = new Label(chosenElevator + "\nfrom " + currentFloor + "\nto " + destinationFloor)
@@ -47,12 +51,13 @@ object GUI extends JFXApp3{
           chosenElevator = elevatorSelection.selectionModel.apply.getSelectedItems.get(0)
           currentSettingsLabel.text = chosenElevator + "\nfrom " + currentFloor + "\nto " + destinationFloor
         }
-        elevatorSelection.maxWidth = 150
+        elevatorSelection.maxWidth = 200
         settings.children += elevatorSelectionLabel
         settings.children += elevatorSelection
 
         val floorSelectionLabel = new Label("On which floor are you?")
-        val floorSelection = new ComboBox(List.tabulate(11)(i => if (i >= 1) (i) + ". floor" else "Ground floor"))
+        val floorSelection = new ComboBox(List.tabulate(11)(i => if (i >= 1) i + ". floor" else "Ground floor"))
+//        val floorSelection = new ComboBox(List.tabulate(11)(i => FloorsNo(i).toString))
         floorSelection.onAction = (e: ActionEvent) => {
           currentFloor = floorSelection.value.apply()
           currentSettingsLabel.text = chosenElevator + "\nfrom " + currentFloor + "\nto " + destinationFloor
@@ -61,7 +66,7 @@ object GUI extends JFXApp3{
         settings.children += floorSelection
 
         val destinationSelectionLabel = new Label("To which floor are you going?")
-        val destinationSelection = new ComboBox(List.tabulate(11)(i => if (i >= 1) (i) + ". floor" else "Ground floor"))
+        val destinationSelection = new ComboBox(List.tabulate(11)(i => if (i >= 1) i + ". floor" else "Ground floor"))
         destinationSelection.onAction = (e: ActionEvent) => {
           destinationFloor = destinationSelection.value.apply()
           currentSettingsLabel.text = chosenElevator + "\nfrom " + currentFloor + "\nto " + destinationFloor
@@ -75,28 +80,30 @@ object GUI extends JFXApp3{
         settings.children += summonElevator
 
         val bottomBox = new VBox
+        bottomBox.prefHeight = 90
         bottomBox.alignment = TopCenter
         val bottomLabel = new Label("Change of the simulation speed [increase<-X->decrease]");
+        bottomLabel.prefHeight = 20
         bottomBox.children += bottomLabel
 
 
         val controls = new HBox
         controls.alignment = TopCenter
-        controls.prefHeight = 100
+        controls.prefHeight = 70
 
         val controlButton = new Button("Pause")
-        controlButton.prefHeight = 50
+        controlButton.prefHeight = 70
         controlButton.prefWidth = 100
         controls.children += controlButton
 
         val timeScroll = new ScrollBar()
-        timeScroll.minHeight = 50
+        timeScroll.minHeight = 70
         timeScroll.prefWidth = 800
         controls.children += timeScroll
 
         val exitButton = new Button("Exit")
         exitButton.onAction = (e: ActionEvent) => {exit(0)}
-        exitButton.prefHeight = 50
+        exitButton.prefHeight = 70
         exitButton.prefWidth = 100
         controls.children += exitButton
 
@@ -104,7 +111,7 @@ object GUI extends JFXApp3{
 
         val allStats = new VBox
         allStats.alignment = TopCenter
-        allStats.prefWidth = 200
+        allStats.prefWidth = 300
 
         val getInfo = new Button("Generate stats")
 //        getInfo.prefWidth = 200
@@ -117,7 +124,7 @@ object GUI extends JFXApp3{
 
 
         val rootPane = new BorderPane
-        rootPane.top = menuBar
+        rootPane.top = buffor
         rootPane.center = elevatorSimulation(controlButton, summonElevator, getInfo, timeScroll, stats)
         rootPane.right = allStats
         rootPane.left = settings
@@ -179,6 +186,7 @@ object GUI extends JFXApp3{
 
       summonElevator.onAction = (e: ActionEvent) => {
         if (chosenElevator == "[none]" || currentFloor == "[none]" || destinationFloor == "[none]") {}
+//        if (chosenElevator == "[none]" || currentFloor.id == 11 || destinationFloor == "[none]") {}
         else {
           var id, cf, df = -1
           if (chosenElevator.length == 14) {
@@ -198,6 +206,7 @@ object GUI extends JFXApp3{
           else {
             cf = (currentFloor(0).toInt - 48) * 10 + currentFloor(1).toInt - 48
           }
+//          cf = currentFloor.id
 
           if (destinationFloor == "Ground floor") {
             df = 0

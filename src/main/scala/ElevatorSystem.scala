@@ -12,6 +12,8 @@ class ElevatorSystem(val elevators: ListBuffer[Elevator] = ListBuffer()){
 //    println(from)
 //    println(to)
     elevators(id).addRequest(new Request(from, to))
+//    Thread.sleep(10)
+    elevators(id).calculateDestination()
   }
 
   def iteration(): Unit ={
@@ -19,7 +21,6 @@ class ElevatorSystem(val elevators: ListBuffer[Elevator] = ListBuffer()){
       e.move()
       e.pickUp()
       e.growImpatience()
-      e.calculateDestination()
     }
   }
 

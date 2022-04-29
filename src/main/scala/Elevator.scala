@@ -4,37 +4,39 @@ import scala.util.control.Breaks.break
 class Elevator(val ID: Int, var moveDirection: Int = 0, var currentFloor: Double = 0,
                var destinationFloor: Int = 0, var requestsSubmitted: ListBuffer[Request] = ListBuffer(),
                var passengers: ListBuffer[Request] = ListBuffer(),
-               val reloadingTime: Int = 25, var reloadingProgress: Int = 25, val capacity: Int = 10){
+               val reloadingTime: Int = 25, var reloadingProgress: Int = 25, val capacity: Int = 10,
+               var goingUp: Boolean = true){
 
   def addRequest(r: Request): Unit ={
     requestsSubmitted.append(r)
   }
   def showRequests(): Unit ={
     if(requestsSubmitted.nonEmpty)
-      println("   R:")
+      println("   R:", requestsSubmitted.length)
     requestsSubmitted.foreach(println)
     if(passengers.nonEmpty)
-      println("   P")
+      println("   P", passengers.length)
     passengers.foreach(println)
   }
   def pickUp(): Unit ={
-//    showRequests()
+    showRequests()
     if(currentFloor%1==0) {
       val tmp: ListBuffer[Int] = ListBuffer()
       val currentFloorInt = math.round(currentFloor)
       for (r <- requestsSubmitted.indices) {
-        if (requestsSubmitted(r).from == currentFloorInt) {
+        if (requestsSubmitted(r).from == currentFloorInt && passengers.length<capacity) {
 //          println(requestsSubmitted(r).from + " -> " + requestsSubmitted(r).to)
 //          println("pick id " + r)
           tmp.append(r)
           passengers.append(requestsSubmitted(r))
           reloadingProgress=0
         }
-        if(passengers.length>=capacity)
-          break
+//        if(passengers.length>=capacity)
+//          break
       }
       for(i <- tmp.indices.reverse){
         requestsSubmitted.remove(tmp(i))
+        calculateDestination()
       }
       tmp.clear()
       for (p <- passengers.indices) {
@@ -47,6 +49,7 @@ class Elevator(val ID: Int, var moveDirection: Int = 0, var currentFloor: Double
       }
       for(i <- tmp.indices.reverse){
         passengers.remove(tmp(i))
+        calculateDestination()
       }
     }
   }
@@ -54,9 +57,11 @@ class Elevator(val ID: Int, var moveDirection: Int = 0, var currentFloor: Double
     if(reloadingProgress==reloadingTime){
       if (currentFloor < destinationFloor) {
         currentFloor += 0.0625
+        goingUp = true
       }
       else if (currentFloor > destinationFloor) {
         currentFloor -= 0.0625
+        goingUp = false
       }
     }
     else{
@@ -68,14 +73,22 @@ class Elevator(val ID: Int, var moveDirection: Int = 0, var currentFloor: Double
     var distance = 10000.0
     for(p <- passengers){
       if(distance == 10000.0 || (math.abs(currentFloor-p.to)*16 - p.waitingTime/4)<distance){
-        distance = math.abs(currentFloor-p.to)*8 - p.waitingTime
+        distance = math.abs(currentFloor-p.to)*16 - p.waitingTime / 4
         bestDestination = p.to
       }
     }
     if(passengers.length<capacity) {
       for (r <- requestsSubmitted) {
-        if (distance == 10000.0 || (math.abs(currentFloor - r.from) * 16 - r.waitingTime / 4) < distance) {
-          distance = math.abs(currentFloor - r.to) * 8 - r.waitingTime
+        var directionValue = 0
+        if(r.goingUp && goingUp || !r.goingUp && !goingUp){ //w dobrym kierunku
+          directionValue = 0
+        }
+        else{
+          directionValue = 2
+        }
+        println("dir val: ", directionValue)
+        if (distance == 10000.0 || (math.abs(currentFloor - r.from) * 16 - r.waitingTime / 4)*directionValue < distance) {
+          distance = (math.abs(currentFloor - r.to) * 16 - r.waitingTime / 4) * directionValue
           bestDestination = r.from
         }
       }

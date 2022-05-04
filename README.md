@@ -24,6 +24,6 @@ System umożliwia
   - odległości od pięter, na które już zabrane osoby chcą jechać
   - odległości od pięter, na których znajdują się osoby czekające na windę
   - czasu oczekiwania poszczególnych osób (zarówno tych już zabranych, jak i tych czekających)
-- [^1]
-- [^2]
+- pojemność wind [^1]
+- prędkość wind [^2]
 

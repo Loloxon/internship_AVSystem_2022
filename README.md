@@ -1,6 +1,6 @@
 # internship_AVSystem_2022
  
-## System kontroli wind w budynku
+## System kontroli wind w budynku napisany w Scali
 Włączenie programu następuje poprzez uruchomienie obiektu GUI.
 
 System umożliwia 

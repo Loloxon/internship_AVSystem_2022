@@ -1,5 +1,4 @@
 import scala.collection.mutable.ListBuffer
-import scala.util.control.Breaks.break
 
 class Elevator(val ID: Int, var moveDirection: Int = 0, var currentFloor: Double = 0,
                var destinationFloor: Int = 0, var requestsSubmitted: ListBuffer[Request] = ListBuffer(),
@@ -25,14 +24,10 @@ class Elevator(val ID: Int, var moveDirection: Int = 0, var currentFloor: Double
       val currentFloorInt = math.round(currentFloor)
       for (r <- requestsSubmitted.indices) {
         if (requestsSubmitted(r).from == currentFloorInt && passengers.length<capacity) {
-//          println(requestsSubmitted(r).from + " -> " + requestsSubmitted(r).to)
-//          println("pick id " + r)
           tmp.append(r)
           passengers.append(requestsSubmitted(r))
           reloadingProgress=0
         }
-//        if(passengers.length>=capacity)
-//          break
       }
       for(i <- tmp.indices.reverse){
         requestsSubmitted.remove(tmp(i))
@@ -41,8 +36,7 @@ class Elevator(val ID: Int, var moveDirection: Int = 0, var currentFloor: Double
       tmp.clear()
       for (p <- passengers.indices) {
         if (passengers(p).to == currentFloorInt) {
-//          println(passengers(p).from + " -> " + passengers(p).to)
-//          println("put id " + p)
+
           tmp.append(p)
           reloadingProgress=0
         }
@@ -86,7 +80,6 @@ class Elevator(val ID: Int, var moveDirection: Int = 0, var currentFloor: Double
         else{
           directionValue = 2
         }
-//        println("dir val: ", directionValue)
         if ((math.abs(currentFloor - r.from) * 16 - r.waitingTime / 4)*directionValue < distance) {
           distance = (math.abs(currentFloor - r.to) * 16 - r.waitingTime / 4) * directionValue
           bestDestination = r.from
@@ -95,12 +88,6 @@ class Elevator(val ID: Int, var moveDirection: Int = 0, var currentFloor: Double
     }
     if(distance!= 10000.0)
       destinationFloor = bestDestination
-//    if(passengers.nonEmpty) {
-//      destinationFloor = passengers.head.to
-//    }else if(requestsSubmitted.nonEmpty){
-//      destinationFloor = requestsSubmitted.head.from
-//    }
-//    println("ID: ", ID, ", ", destinationFloor)
   }
   def growImpatience(): Unit ={
     for(r<-requestsSubmitted)

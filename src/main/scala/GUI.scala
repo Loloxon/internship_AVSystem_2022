@@ -20,22 +20,14 @@ object GUI extends JFXApp3{
 
     var chosenElevator = "[none]"
     var currentFloor = "[none]"
-//    var currentFloor = FloorsNo(11)
     var destinationFloor = "[none]"
     stage = new JFXApp3.PrimaryStage {
       title = "Elevator system"
       val width1 = 1400
       val height1 = 800
       scene = new Scene(width1, height1) {
-        val buffor = new HBox
-        buffor.prefHeight = 10
-//        val fileMenu = new Menu("File")
-//        val exitItem = new MenuItem("Exit")
-//        fileMenu.onAction = (e: ActionEvent) => {
-//          exit(77)
-//        }
-//        fileMenu.items = List(exitItem)
-//        menuBar.menus = List(fileMenu)
+        val buffer = new HBox
+        buffer.prefHeight = 10
 
         val settings = new VBox
         settings.alignment = TopCenter
@@ -56,7 +48,6 @@ object GUI extends JFXApp3{
 
         val floorSelectionLabel = new Label("On which floor are you?")
         val floorSelection = new ComboBox(List.tabulate(11)(i => if (i >= 1) i + ". floor" else "Ground floor"))
-//        val floorSelection = new ComboBox(List.tabulate(11)(i => FloorsNo(i).toString))
         floorSelection.onAction = (e: ActionEvent) => {
           currentFloor = floorSelection.value.apply()
           currentSettingsLabel.text = chosenElevator + "\nfrom " + currentFloor + "\nto " + destinationFloor
@@ -81,7 +72,7 @@ object GUI extends JFXApp3{
         val bottomBox = new VBox
         bottomBox.prefHeight = 90
         bottomBox.alignment = TopCenter
-        val bottomLabel = new Label("Change of the simulation speed [increase<-X->decrease]");
+        val bottomLabel = new Label("Change of the simulation speed [increase<-X->decrease]")
         bottomLabel.prefHeight = 20
         bottomBox.children += bottomLabel
 
@@ -112,10 +103,6 @@ object GUI extends JFXApp3{
         allStats.alignment = TopCenter
         allStats.prefWidth = 300
 
-        val getInfo = new Button("Generate stats")
-//        getInfo.prefWidth = 200
-//        allStats.children += getInfo
-
         val stats = new TextArea()
         stats.prefHeight = 700
         stats.editable = false
@@ -123,20 +110,19 @@ object GUI extends JFXApp3{
 
 
         val rootPane = new BorderPane
-        rootPane.top = buffor
-        rootPane.center = elevatorSimulation(controlButton, summonElevator, getInfo, timeScroll, stats)
+        rootPane.top = buffer
+        rootPane.center = elevatorSimulation(controlButton, summonElevator, timeScroll, stats)
         rootPane.right = allStats
         rootPane.left = settings
         rootPane.bottom = bottomBox
         root = rootPane
 
-        //      content = List(root)
       }
     }
     stage.resizable = false
 
     def elevatorSimulation(controlButton: Button, summonElevator: Button,
-                           getInfo: Button, timeScroll: ScrollBar, stats: TextArea): GridPane = {
+                           timeScroll: ScrollBar, stats: TextArea): GridPane = {
       val grid = new GridPane
       val rectangle_size = 4
       val width = scene_size_x / rectangle_size
@@ -179,13 +165,8 @@ object GUI extends JFXApp3{
 
       val es = new ElevatorSystem
 
-//      getInfo.onAction = (e: ActionEvent) => {
-//        stats.setText(es.checkout())
-//      }
-
       summonElevator.onAction = (e: ActionEvent) => {
         if (chosenElevator == "[none]" || currentFloor == "[none]" || destinationFloor == "[none]") {}
-//        if (chosenElevator == "[none]" || currentFloor.id == 11 || destinationFloor == "[none]") {}
         else {
           var id, cf, df = -1
           if (chosenElevator.length == 14) {
@@ -205,7 +186,6 @@ object GUI extends JFXApp3{
           else {
             cf = (currentFloor(0).toInt - 48) * 10 + currentFloor(1).toInt - 48
           }
-//          cf = currentFloor.id
 
           if (destinationFloor == "Ground floor") {
             df = 0
@@ -238,8 +218,6 @@ object GUI extends JFXApp3{
             for (e <- es.elevators) {
               val bottomCenterX = 12 * e.ID + 9
               val bottomCenterY = (height - 4) - (e.currentFloor * 16).toInt
-              //            println(bottomCenterX)
-              //            println(bottomCenterY)
               for (i <- bottomCenterX - 2 to bottomCenterX + 2) {
                 for (j <- bottomCenterY - 7 to bottomCenterY) {
                   rectangles(i)(j).fill = Red

@@ -10,5 +10,5 @@ System umożliwia
 - analizę konkretnych pozycji wind oraz informacji gdzie obecnie zmierzają a także ile osób przewożą [^1] (prawa część)
 - suwak do modyfikacji prędkości symulacji wind (dolna część) [^2]
 
-[^1] Założono że każde zamówienie windy to dokładnie jedna osoba
+[^1]: Założono że każde zamówienie windy to dokładnie jedna osoba
 [^2] Prędkość wind oraz czas poświęcany na wchodzenie/wychodzenie ludzi oparto na rzeczywistych danych

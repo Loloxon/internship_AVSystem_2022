@@ -4,7 +4,7 @@ import scala.util.control.Breaks.break
 class Elevator(val ID: Int, var moveDirection: Int = 0, var currentFloor: Double = 0,
                var destinationFloor: Int = 0, var requestsSubmitted: ListBuffer[Request] = ListBuffer(),
                var passengers: ListBuffer[Request] = ListBuffer(),
-               val reloadingTime: Int = 25, var reloadingProgress: Int = 25, val capacity: Int = 10,
+               val reloadingTime: Int = 64, var reloadingProgress: Int = 64, val capacity: Int = 10,
                var goingUp: Boolean = true){
 
   def addRequest(r: Request): Unit ={

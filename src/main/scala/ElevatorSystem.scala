@@ -30,7 +30,7 @@ class ElevatorSystem(val elevators: ListBuffer[Elevator] = ListBuffer()){
       ans += "Elevator " + e.ID + " capacity: " + e.passengers.length + "/" + e.capacity + ":\n```"
       if (e.reloadingTime != e.reloadingProgress) {
         ans += "On " + round(e.currentFloor) + " floor, reloading ["
-        for(i<-0 until e.reloadingTime by 5){
+        for(i<-0 until e.reloadingTime by 8){
           if(i<=e.reloadingProgress)
             ans += "X"
           else

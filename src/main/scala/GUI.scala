@@ -9,7 +9,6 @@ import scalafx.scene.layout._
 import scalafx.scene.paint.Color._
 import scalafx.scene.shape.Rectangle
 
-import Floors._
 
 import scala.sys.exit
 

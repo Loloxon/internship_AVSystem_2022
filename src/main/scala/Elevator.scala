@@ -19,7 +19,7 @@ class Elevator(val ID: Int, var moveDirection: Int = 0, var currentFloor: Double
     passengers.foreach(println)
   }
   def pickUp(): Unit ={
-    showRequests()
+//    showRequests()
     if(currentFloor%1==0) {
       val tmp: ListBuffer[Int] = ListBuffer()
       val currentFloorInt = math.round(currentFloor)
@@ -86,7 +86,7 @@ class Elevator(val ID: Int, var moveDirection: Int = 0, var currentFloor: Double
         else{
           directionValue = 2
         }
-        println("dir val: ", directionValue)
+//        println("dir val: ", directionValue)
         if ((math.abs(currentFloor - r.from) * 16 - r.waitingTime / 4)*directionValue < distance) {
           distance = (math.abs(currentFloor - r.to) * 16 - r.waitingTime / 4) * directionValue
           bestDestination = r.from
